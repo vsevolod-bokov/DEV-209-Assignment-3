@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emoji Memory Game</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="game-container">
+    <h1>Emoji Memory Game</h1>
+
+    <div class="controls">
+      <div class="control-group">
+        <label for="grid-size">Grid Size:</label>
+        <select id="grid-size">
+          <option value="4">4 × 4</option>
+          <option value="8">8 × 8</option>
+          <option value="12">12 × 12</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label for="difficulty">Difficulty:</label>
+        <select id="difficulty">
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+      </div>
+
+      <button id="reset-btn">Reset Game</button>
+    </div>
+
+    <div class="stats">
+      <span class="stat">Score: <strong id="score">0</strong></span>
+      <span class="stat">Flips: <strong id="flips">0</strong></span>
+      <span class="stat">Time: <strong id="timer">0:00</strong></span>
+    </div>
+
+    <div id="grid" class="grid"></div>
+
+    <div id="game-over" class="game-over hidden">
+      <h2>Game Over!</h2>
+      <p>Your score: <strong id="final-score"></strong></p>
+      <p>Time: <strong id="final-time"></strong></p>
+      <p>Flips: <strong id="final-flips"></strong></p>
+      <button id="play-again-btn">Play Again</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

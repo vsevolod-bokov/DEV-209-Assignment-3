@@ -1,0 +1,192 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #e8f4f8;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+.game-container {
+  text-align: center;
+  max-width: 900px;
+  width: 100%;
+}
+
+h1 {
+  color: #4a90b8;
+  margin-bottom: 16px;
+  font-size: 2rem;
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.control-group label {
+  color: #4a90b8;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+select {
+  padding: 6px 10px;
+  border: 2px solid #b0d4e8;
+  border-radius: 8px;
+  background: #fff;
+  color: #3a7ca5;
+  font-size: 0.95rem;
+  cursor: pointer;
+  outline: none;
+}
+
+select:focus {
+  border-color: #4a90b8;
+}
+
+#reset-btn,
+#play-again-btn {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #4a90b8;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#reset-btn:hover,
+#play-again-btn:hover {
+  background-color: #3a7ca5;
+}
+
+/* Stats */
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.stat {
+  color: #5a9fbf;
+  font-size: 1rem;
+}
+
+.stat strong {
+  color: #3a7ca5;
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  gap: 6px;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+/* Card */
+.card {
+  width: 100%;
+  aspect-ratio: 1;
+  perspective: 600px;
+  cursor: pointer;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.4s ease;
+  transform-style: preserve-3d;
+}
+
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-front {
+  background: linear-gradient(135deg, #a8d8ea, #87c4db);
+  border: 2px solid #b0d4e8;
+}
+
+.card-back {
+  background: #fff;
+  border: 2px solid #b0d4e8;
+  transform: rotateY(180deg);
+  font-size: 2rem;
+  user-select: none;
+}
+
+.card.matched .card-front {
+  background: linear-gradient(135deg, #b8e6d0, #8fd4b0);
+  border-color: #8fd4b0;
+}
+
+.card.matched .card-back {
+  border-color: #8fd4b0;
+}
+
+/* Game Over overlay */
+.game-over {
+  position: fixed;
+  inset: 0;
+  background: rgba(74, 144, 184, 0.85);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  z-index: 10;
+}
+
+.game-over h2 {
+  color: #fff;
+  font-size: 2.5rem;
+}
+
+.game-over p {
+  color: #e8f4f8;
+  font-size: 1.2rem;
+}
+
+.game-over strong {
+  color: #fff;
+}
+
+.hidden {
+  display: none !important;
+}
