@@ -15,10 +15,11 @@ const EMOJIS = [
 // ── Difficulty config ───────────────────────────────────────────────
 // Copies = how many of each emoji appear on the board.
 // More copies → fewer unique emojis → easier to find matches.
+// decoyRatio = fraction of cards that are unique (no match possible).
 const DIFFICULTY = {
-  easy:   { copies: 8 },
-  medium: { copies: 4 },
-  hard:   { copies: 2 },
+  easy:   { copies: 4, decoyRatio: 0 },
+  medium: { copies: 2, decoyRatio: 0 },
+  hard:   { copies: 2, decoyRatio: 0.25 },
 };
 
 // ── DOM references ──────────────────────────────────────────────────
@@ -88,11 +89,26 @@ const stopTimer = () => {
 // ── Build card data ─────────────────────────────────────────────────
 const buildCardData = (gridSize, difficulty) => {
   const totalCards = gridSize * gridSize;
-  const { copies } = DIFFICULTY[difficulty];
-  const uniqueNeeded = totalCards / copies;
-  const selectedEmojis = shuffle(EMOJIS).slice(0, uniqueNeeded);
-  const pool = selectedEmojis.flatMap((emoji) => Array(copies).fill(emoji));
-  return shuffle(pool);
+  const { copies, decoyRatio } = DIFFICULTY[difficulty];
+
+  // Calculate decoy count (round down to nearest even for clean grid)
+  let decoyCount = Math.floor(totalCards * decoyRatio);
+  let pairedCount = totalCards - decoyCount;
+  // Ensure paired portion is divisible by copies
+  pairedCount = pairedCount - (pairedCount % copies);
+  decoyCount = totalCards - pairedCount;
+
+  const shuffledEmojis = shuffle(EMOJIS);
+  const uniquePaired = pairedCount / copies;
+  const pairedEmojis = shuffledEmojis.slice(0, uniquePaired);
+  const decoyEmojis = shuffledEmojis.slice(uniquePaired, uniquePaired + decoyCount);
+
+  const pool = [
+    ...pairedEmojis.flatMap((emoji) => Array(copies).fill(emoji)),
+    ...decoyEmojis,
+  ];
+
+  return { cards: shuffle(pool), pairedCount };
 };
 
 // ── Compute card size based on grid ─────────────────────────────────
@@ -225,12 +241,10 @@ const initGame = () => {
   const difficulty = difficultySel.value;
   const cardSize = getCardSize(gridSize);
 
-  // Calculate total pairs
-  totalPairs = (gridSize * gridSize) / 2;
-
   // Build cards
-  const cardData = buildCardData(gridSize, difficulty);
+  const { cards: cardData, pairedCount } = buildCardData(gridSize, difficulty);
   cards = cardData;
+  totalPairs = pairedCount / 2;
 
   // Configure grid CSS
   gridEl.style.gridTemplateColumns = `repeat(${gridSize}, ${cardSize}px)`;
